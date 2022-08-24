@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha@123
+      MYSQL_USER:  admin 
+      MYSQL_PASSWORD: senha@123
+    expose:
+        - "40000"
+    ports:
+        - "40000:3306"
+    volumes:
+     - .mariadb:/var/lib/mysql
+    networks:
+      db:
+              
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    expose:
+      - "40001"
+    ports:
+      - "40001:80"
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306 
+    networks:
+      db:
+
+networks:
+    db:
+        driver: bridge
