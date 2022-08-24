@@ -2,3 +2,4 @@
 .mgdata
 .pgdata
 .env
+.redis-data
