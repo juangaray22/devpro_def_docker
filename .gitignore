@@ -3,3 +3,4 @@
 .pgdata
 .env
 .redis-data
+.dbdata
