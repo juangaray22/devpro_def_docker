@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  
+  app:
+    container_name: web
+    build: .
+    environment:
+      - MONGODB_HOST=mongodb
+      - MONGODB_DB=admin
+      - MONGODB_PORT=27017
+      - MONGODB_USERNAME=mongouser
+      - MONGODB_PASSWORD=mongopwd
+    ports:
+    - "5000:5000"
+    depends_on:
+      - mongodb
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"  
+  
+  mongodb:
+    image: mongo:5.0
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=mongopwd
+      - MONGO_INITDB_DATABASE=admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.mgdata/db:/data/db
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=mongouser
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=mongopwd
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=mongouser
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=mongopwd
+    depends_on:
+      - mongodb
+
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
