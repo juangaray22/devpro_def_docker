@@ -5,8 +5,8 @@ services:
     image: mongo:5.0
     container_name: mongo
     environment:
-        - MONGO_INITDB_ROOT_USERNAME=root
-        - MONGO_INITDB_ROOT_PASSWORD=password
+        - MONGO_INITDB_ROOT_USERNAME=mongouser
+        - MONGO_INITDB_ROOT_PASSWORD=mongopwd
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -14,6 +14,7 @@ services:
       - ./.mgdata/db:/data/db
       - ./.mgdata/dev.archive:/Databases/dev.archive
       - ./.mgdata/production:/Databases/production
+  
   mongo-express:
     image: mongo-express
     container_name: mexpress
